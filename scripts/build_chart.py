@@ -18,6 +18,10 @@ from datetime import datetime
 from pathlib import Path
 from itertools import combinations
 
+# Local helpers (slug, cache, parsers) — добавляем cwd в sys.path
+sys.path.insert(0, str(Path(__file__).parent))
+from astro_helpers import cache_save
+
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -666,6 +670,13 @@ def main():
         json.dump(chart_json, f, ensure_ascii=False, indent=2)
 
     print(f"  📊 JSON: {json_path}")
+
+    # ── Кэш для расширенных техник (транзиты, прогрессии, синастрия...) ──
+    try:
+        cache_file = cache_save(chart_json)
+        print(f"  💾 Кэш: {cache_file}")
+    except Exception as e:
+        print(f"  ⚠️  Кэш не сохранён: {e}")
 
     # ── Краткая сводка ────────────────────────────────────────────────────
     print(f"\n  ┌── КАРТА {args.name} ({args.system.upper()}) ──")
