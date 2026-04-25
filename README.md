@@ -237,6 +237,6 @@ Swiss Ephemeris данные распространяются по [двойно
 
 ## Автор
 
-**Дмитрий Симоненко** ([@klasnyi](https://github.com/klasnyi)) — концепция и разработка.
+**Дмитрий** ([@klasnyi](https://github.com/klasnyi) · [dimkaklasnyi@gmail.com](mailto:dimkaklasnyi@gmail.com)) — концепция и разработка.
 
 Бренд **МерКаБа** — стилевая идентичность серии скилов саморефлексии (золото / тёмно-серый / синий-акцент, типографика палитры Calibri 11pt).
