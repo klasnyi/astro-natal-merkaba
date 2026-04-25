@@ -1,0 +1,42 @@
+MIT License
+
+Copyright (c) 2026 Дмитрий Симоненко (klasnyi)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+## Дисклеймер
+
+Astro Natal МерКаБа — инструмент архетипической саморефлексии. Скил
+**не является** медицинским диагнозом, психологической или психотерапевтической
+консультацией, юридическим, финансовым или иным профессиональным советом.
+
+Натальная карта описывает энергетические тенденции и точки роста — не судьбу.
+Все жизненные решения — за пользователем. Авторы не несут ответственности
+за интерпретации, действия или последствия использования отчётов.
+
+## Уведомление о Swiss Ephemeris
+
+Расчёты планетарных позиций производятся через [Swiss Ephemeris](https://www.astro.com/swisseph/)
+(Astrodienst AG), распространяемый по [двойной лицензии](https://www.astro.com/swisseph/swephinfo_e.htm):
+GNU GPL v2 для open-source проектов или коммерческая лицензия. Этот скил
+использует Swiss Ephemeris через библиотеку [kerykeion](https://github.com/g-battaglia/kerykeion)
+в open-source режиме (GPL v2). Если вы планируете коммерческое использование
+производных данных, ознакомьтесь с условиями Astrodienst.

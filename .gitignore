@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.venv/
+venv/
+env/
+
+# OS
+.DS_Store
+Thumbs.db
+.Spotlight-V100
+.Trashes
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Локальный кэш натальных карт (для client-mode, появится в Phase 1)
+cache/
+*.cache.json
+
+# Временные файлы прогонов
+/tmp/
+*.tmp
+
+# Не в репо: личные DOCX/PNG/JSON отчёты
+my-chart/
+*.docx
+*.png
+*.json
+!references/*.json
+
+# Тестовые артефакты
+.pytest_cache/
+htmlcov/
+.coverage
