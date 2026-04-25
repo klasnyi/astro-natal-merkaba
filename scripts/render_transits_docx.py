@@ -35,6 +35,8 @@ except ImportError:
     print("❌ python-docx не установлен", file=sys.stderr)
     sys.exit(1)
 
+import os
+
 # Переиспользуем стили из render_docx (палитра МерКаБа уже настроена там)
 from render_docx import (
     setup_styles, add_hr, add_page_break, set_cell_width,
@@ -167,6 +169,27 @@ def add_summary_section(doc, transits, summary_text):
         cells[3].text = INTENSITY_LABEL.get(asp.get('intensity', 'low'), '—')
         for i, w in enumerate(widths):
             set_cell_width(cells[i], w)
+
+
+def add_biwheel_image(doc, biwheel_path):
+    """Встраивает bi-wheel PNG (если есть) после блока 'Текущий период'."""
+    if not biwheel_path or not os.path.exists(biwheel_path):
+        return
+    doc.add_heading('Натал × Транзиты — bi-wheel', level=2)
+    intro = doc.add_paragraph()
+    r = intro.add_run(
+        'Двойной круг: натальная карта в центре, транзиты по внешнему кольцу. '
+        'Линии между ними — активные аспекты. Цвета линий: красный (квадрат), '
+        'оранжевый (оппозиция), зелёный (трин), синий (секстиль), белый (соединение).'
+    )
+    r.italic = True
+    r.font.color.rgb = COLOR_MUTED
+    r.font.size = Pt(9)
+    p = doc.add_paragraph()
+    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    run = p.add_run()
+    run.add_picture(biwheel_path, width=Inches(6.2))
+    p.paragraph_format.space_after = Pt(8)
 
 
 def add_active_transits(doc, transits, active_interp):
@@ -364,6 +387,13 @@ def render(transits_path, interp_path, out_path):
     add_header(doc, transits)
     add_how_to_read(doc, interp.get('intro_how_to_read'))
     add_summary_section(doc, transits, interp.get('summary'))
+    # Bi-wheel PNG (если build_transits.py вызывался с --biwheel)
+    biwheel_path = transits.get('biwheel_png')
+    if biwheel_path and not os.path.isabs(biwheel_path):
+        biwheel_path = os.path.join(
+            os.path.dirname(os.path.abspath(transits_path)), biwheel_path
+        )
+    add_biwheel_image(doc, biwheel_path)
     add_active_transits(doc, transits, interp.get('active', {}))
     add_upcoming(doc, transits, interp.get('upcoming'))
     add_stations(doc, transits, interp.get('stations'))

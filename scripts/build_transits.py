@@ -345,6 +345,10 @@ def main():
     p.add_argument('--lon', type=float, help='Долгота (default: из натала)')
     p.add_argument('--tz', help='Таймзона (default: из натала)')
     p.add_argument('--outdir', help='Папка вывода (default: ./transits-reports)')
+    p.add_argument('--biwheel', action='store_true',
+                   help='Дополнительно сгенерировать bi-wheel PNG (натал внутри + транзиты снаружи)')
+    p.add_argument('--biwheel-orb', type=float, default=3.0,
+                   help='Макс. орб для линий аспектов в bi-wheel (def 3.0°)')
     args = p.parse_args()
 
     # Натальная карта
@@ -470,6 +474,24 @@ def main():
         json.dump(transit_json, f, ensure_ascii=False, indent=2)
 
     print(f"  📊 JSON: {json_path}")
+
+    # ── Bi-wheel PNG (опционально) ────────────────────────────────────────
+    biwheel_path = None
+    if args.biwheel:
+        try:
+            from render_biwheel import render_biwheel
+            biwheel_path = outdir / f"biwheel_{name_slug}_{date_iso}.png"
+            print(f"  🎨 Рисую bi-wheel...")
+            render_biwheel(natal, transit_json, str(biwheel_path),
+                           max_aspect_orb=args.biwheel_orb)
+            print(f"  🖼  Bi-wheel: {biwheel_path}")
+            transit_json['biwheel_png'] = str(biwheel_path)
+            # перезаписываем JSON с обновлённым полем biwheel_png
+            with open(json_path, 'w', encoding='utf-8') as f:
+                json.dump(transit_json, f, ensure_ascii=False, indent=2)
+        except Exception as e:
+            print(f"  ⚠️  Bi-wheel не создан: {e}")
+
     print(f"\n  ┌── ТРАНЗИТЫ {natal_name} на {date_iso} ──")
     print(f"  │  Всего аспектов: {transit_json['totals']['total_aspects']}")
     print(f"  │  Высокая интенсивность: {transit_json['totals']['high_intensity']}")
