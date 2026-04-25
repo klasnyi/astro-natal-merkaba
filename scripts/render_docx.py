@@ -39,6 +39,94 @@ except ImportError:
     sys.exit(1)
 
 
+# ─── Расширенные интерпретации (Phase 16, v2.4) ──────────────────────────────
+
+_EXT_REFS_CACHE = None
+
+def _load_extended_refs():
+    """Lazy-load расширенных reference JSON. Возвращает dict с тремя ключами."""
+    global _EXT_REFS_CACHE
+    if _EXT_REFS_CACHE is not None:
+        return _EXT_REFS_CACHE
+    from pathlib import Path as _Path
+    refs_dir = _Path(__file__).parent.parent / 'references'
+    out = {}
+    for name in ('planets_in_signs', 'planets_in_houses',
+                 'elements_modalities_hemispheres'):
+        path = refs_dir / f'{name}.json'
+        try:
+            if path.exists():
+                with open(path, 'r', encoding='utf-8') as f:
+                    out[name] = json.load(f)
+            else:
+                out[name] = {}
+        except Exception:
+            out[name] = {}
+    _EXT_REFS_CACHE = out
+    return out
+
+
+def _format_ext_entry(entry):
+    """{keyword, archetype, gift, shadow|focus} → одна строка."""
+    if not entry or not isinstance(entry, dict):
+        return None
+    parts = []
+    kw = entry.get('keyword')
+    arch = entry.get('archetype')
+    gift = entry.get('gift')
+    shadow = entry.get('shadow')
+    focus = entry.get('focus')
+    if kw and arch:
+        parts.append(f"«{kw}». {arch}")
+    elif arch:
+        parts.append(arch)
+    elif kw:
+        parts.append(kw)
+    if focus:
+        parts.append(f"Фокус: {focus}")
+    if gift:
+        parts.append(f"Дар: {gift}")
+    if shadow:
+        parts.append(f"Тень: {shadow}")
+    return '  '.join(parts) if parts else None
+
+
+def get_planet_in_sign_text(planet_key, sign_ru):
+    """Возвращает расширенный текст планеты в знаке или None если нет."""
+    refs = _load_extended_refs()
+    entry = refs.get('planets_in_signs', {}).get(planet_key, {}).get(sign_ru)
+    return _format_ext_entry(entry)
+
+
+def get_planet_in_house_text(planet_key, house_num):
+    """Возвращает расширенный текст планеты в доме или None."""
+    refs = _load_extended_refs()
+    entry = refs.get('planets_in_houses', {}).get(planet_key, {}).get(str(house_num))
+    return _format_ext_entry(entry)
+
+
+def get_element_text(element_key, mode='dominant'):
+    """Возвращает расширенный текст по стихии (mode: dominant/lacking/balanced)."""
+    refs = _load_extended_refs()
+    e = refs.get('elements_modalities_hemispheres', {}).get('elements', {}).get(element_key)
+    if not e:
+        return None
+    arch = e.get('archetype', '')
+    detail = e.get(mode, '')
+    return f"{arch} {detail}".strip() or None
+
+
+def get_modality_text(modality_key, mode='dominant'):
+    """Возвращает расширенный текст по кресту."""
+    refs = _load_extended_refs()
+    m = refs.get('elements_modalities_hemispheres', {}).get('modalities', {}).get(modality_key)
+    if not m:
+        return None
+    arch = m.get('archetype', '')
+    detail = m.get(mode, '')
+    return f"{arch} {detail}".strip() or None
+
+
 # ─── СТИЛЬ (палитра МерКаБа + астрологические акценты) ──────────────────────
 
 COLOR_TITLE = RGBColor(0xD4, 0xA0, 0x17)     # золото
@@ -257,7 +345,11 @@ def add_planets_section(doc, chart, interp):
         for k in keys:
             if k not in planets:
                 continue
-            add_planet_block(doc, planets[k], planet_interps.get(k, ''), group_title)
+            # Приоритет: interp.json (от LLM) → расширенный ref (v2.4) → пусто
+            text = planet_interps.get(k)
+            if not text:
+                text = get_planet_in_sign_text(k, planets[k].get('sign_ru', '')) or ''
+            add_planet_block(doc, planets[k], text, group_title)
 
 
 def add_houses_section(doc, chart, interp):
@@ -370,6 +462,14 @@ def add_distributions_section(doc, chart, interp_text):
 
     if interp_text:
         doc.add_paragraph(interp_text)
+    else:
+        # v2.4: расширенные fallback-тексты по доминирующей стихии и кресту
+        elem_text = get_element_text(dist['dominant_element'], 'dominant')
+        if elem_text:
+            doc.add_paragraph(elem_text)
+        mod_text = get_modality_text(dist['dominant_modality'], 'dominant')
+        if mod_text:
+            doc.add_paragraph(mod_text)
 
 
 def add_vedic_section(doc, chart, interp):

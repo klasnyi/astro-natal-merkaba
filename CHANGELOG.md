@@ -2,6 +2,24 @@
 
 История релизов astro-natal-merkaba. Семантическое версионирование.
 
+## v2.4.0 — Расширенные интерпретации (2026-04-25)
+
+Каркас расширенной архетипической библиотеки + автоматический fallback в DOCX-рендере, когда interp.json от LLM не задан.
+
+- **`references/planets_in_signs.json`** (новый, 24 комбинации заполнены): Солнце × 12 знаков и Луна × 12 знаков с keyword/archetype/gift/shadow по 50–80 слов на каждую. Бэклог: остальные 8 планет (Mercury, Venus, Mars, Jupiter, Saturn, Uranus, Neptune, Pluto) × 12 знаков = 96 комбинаций — заполняются по запросу
+- **`references/planets_in_houses.json`** (новый, 24 комбинации заполнены): Солнце и Луна × 12 домов с keyword/archetype/focus/shadow. Бэклог: 96 комбинаций для остальных планет
+- **`references/elements_modalities_hemispheres.json`** (новый, заполнен полностью): 4 стихии (огонь/земля/воздух/вода) × 4 режима (archetype/dominant/lacking/balanced) + 3 креста (cardinal/fixed/mutable) × 4 режима + 4 полусферы (north/south/east/west)
+- **`render_docx.py`** — добавлена секция «Расширенные интерпретации»:
+  * `_load_extended_refs()` lazy-load трёх JSON через модульный кэш
+  * `get_planet_in_sign_text(planet_key, sign_ru)` / `get_planet_in_house_text(...)` / `get_element_text(...)` / `get_modality_text(...)` — helpers для извлечения текстов
+  * `_format_ext_entry()` — формирует параграф из {keyword, archetype, gift/focus, shadow}
+  * `add_planets_section()` теперь использует расширенный текст как fallback если в interp.json нет описания планеты
+  * `add_distributions_section()` подгружает расширенный текст для доминирующей стихии и креста как fallback
+- Smoke на Диме (без interp.json): Sun Лев → подтягивается «Творец-сияющий» (~300 слов), Луна Близнецы → «Чувство через слово», доминанта Воздух → расширенный текст про воздушный архетип. DOCX 297 КБ, 59 параграфов
+- Backward-compat: при наличии interp.json от LLM ext-refs игнорируются (приоритет user-defined)
+
+---
+
 ## v2.3.0 — Лилит (натал + транзиты + синастрия) (2026-04-25)
 
 Чёрная Луна (Black Moon Lilith, Mean Apogee) — теневая женственность, подавленное, инстинкты, темы изгнания/отвержения. Mean Lilith через swisseph (`swe.MEAN_APOG`) — стабильнее чем True/Osculating вариант.
