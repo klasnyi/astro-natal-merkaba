@@ -2,6 +2,23 @@
 
 История релизов astro-natal-merkaba. Семантическое версионирование.
 
+## v2.2.0 — Расширенная ректификация (+6 типов событий) (2026-04-25)
+
+EVENT_THEMES расширен с 9 до 15 типов жизненных событий для Phase-11 ректификации.
+
+- 6 новых event types в `build_rectification.py`:
+  * `death_of_close` — смерть близкого человека (Pluto/Saturn/Mars/Moon → Moon/IC/4-8-12 cusps)
+  * `legal_event` — суд/иск/контракт (Saturn/Pluto/Mars/Jupiter → MC/Mercury/9-10-7 cusps)
+  * `financial_windfall` — крупный денежный приход (Jupiter/Venus/Uranus → Sun/Venus/2-8 cusps)
+  * `surgery_accident` — операция/авария (Mars/Pluto/Saturn/Uranus/Chiron → ASC/Mars/6-8-1 cusps)
+  * `public_recognition` — публичное признание/медиа (Jupiter/Sun/Uranus → MC/Sun/10-11 cusps)
+  * `education_milestone` — диплом/экзамен (Mercury/Jupiter/Saturn → Mercury/MC/3-9 cusps)
+- Все типы используют ту же scoring-логику: `t_weight × tightness × multiplier(×2 for angular)`
+- Smoke на Диме (4 события: surgery_accident + financial_windfall + public_recognition + relocation, окно 04:00–07:00 шаг 12 мин): топ-3 кандидат **05:36 рядом с реальным 5:30** ✅ алгоритм по-прежнему валиден после расширения
+- SKILL.md обновлён с полным списком 15 типов и тематическими планетами
+
+---
+
 ## v2.1.0 — Bi-wheel PNG (2026-04-25)
 
 Двойной круг: натал внутри + транзиты снаружи + цветные линии активных аспектов между ними. Палитра МерКаБа на тёмном фоне.

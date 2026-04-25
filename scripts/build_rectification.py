@@ -78,6 +78,36 @@ EVENT_THEMES = {
         "transit_planets": {"neptune": 5, "pluto": 5, "uranus": 4, "jupiter": 3},
         "natal_targets": ["sun", "moon", "neptune", "pluto", "mc"],
     },
+    "death_of_close": {
+        "name": "Смерть близкого человека",
+        "transit_planets": {"pluto": 5, "saturn": 5, "mars": 3, "moon": 4, "neptune": 3},
+        "natal_targets": ["moon", "ic", "saturn", "house_4_cusp", "house_8_cusp", "house_12_cusp"],
+    },
+    "legal_event": {
+        "name": "Юридическое событие (суд / иск / контракт)",
+        "transit_planets": {"saturn": 5, "pluto": 4, "mars": 4, "jupiter": 4, "mercury": 3},
+        "natal_targets": ["mercury", "mc", "saturn", "house_9_cusp", "house_10_cusp", "house_7_cusp"],
+    },
+    "financial_windfall": {
+        "name": "Крупный денежный приход / финансовый скачок",
+        "transit_planets": {"jupiter": 5, "venus": 4, "uranus": 4, "sun": 3, "pluto": 3},
+        "natal_targets": ["sun", "venus", "jupiter", "house_2_cusp", "house_8_cusp", "mc"],
+    },
+    "surgery_accident": {
+        "name": "Операция / авария / физическая травма",
+        "transit_planets": {"mars": 5, "pluto": 5, "saturn": 4, "uranus": 4, "chiron": 4},
+        "natal_targets": ["ascendant", "mars", "house_6_cusp", "house_8_cusp", "house_1_cusp", "sun"],
+    },
+    "public_recognition": {
+        "name": "Публичное признание / награда / медиа",
+        "transit_planets": {"jupiter": 5, "sun": 4, "uranus": 4, "venus": 3},
+        "natal_targets": ["sun", "mc", "jupiter", "house_10_cusp", "house_11_cusp"],
+    },
+    "education_milestone": {
+        "name": "Завершение учёбы / диплом / экзамен",
+        "transit_planets": {"mercury": 4, "jupiter": 5, "saturn": 4, "sun": 3},
+        "natal_targets": ["mercury", "jupiter", "mc", "house_3_cusp", "house_9_cusp"],
+    },
     "default": {
         "name": "Значимое событие (общее)",
         "transit_planets": {"sun": 3, "moon": 3, "saturn": 4, "jupiter": 4, "uranus": 4, "pluto": 4},

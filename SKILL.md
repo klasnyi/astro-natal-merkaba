@@ -3,7 +3,7 @@ name: astro-natal-merkaba
 description: Построить натальную астрологическую карту по дате, времени и месту рождения. Поддерживает западную (тропический зодиак, Плацидус) и ведическую (сидерический Лахири, 27 накшатр) системы. Расчёты через Swiss Ephemeris (kerykeion). Спрашивает время необязательно — если время известно, даёт полную карту с асцендентом, домами и аспектами; если нет — солнечную карту (знаки планет, доминанты, стеллиумы без домов). Результат — стилизованный DOCX 6-12 страниц с колесом карты, архетипической интерпретацией планет, аспектов, домов, накшатр и практическими рекомендациями. Интерпретации генерируются в момент составления отчёта на основе классических архетипов. Триггеры — "натальная карта", "астрологический расчёт", "построй карту", "астрологический разбор", "посчитай астрологию", "моя астрологическая карта", "ведический гороскоп", "западная астрология", "натал по дате рождения".
 license: MIT
 metadata:
-  version: 2.1.0
+  version: 2.2.0
   author: "Дмитрий <dimkaklasnyi@gmail.com>"
 ---
 
@@ -662,7 +662,11 @@ python3.11 ~/.claude/skills/astro-natal-merkaba/scripts/build_dashas.py \
 ]
 ```
 
-**Поддерживаемые типы:** `marriage`, `divorce`, `child_birth`, `relocation`, `career_change`, `loss_grief`, `illness`, `awakening`, `default`. Каждому типу соответствует свой набор тематических планет с весами.
+**Поддерживаемые типы (15, расширено в v2.2):**
+— *Базовые (v1.10):* `marriage`, `divorce`, `child_birth`, `relocation`, `career_change`, `loss_grief`, `illness`, `awakening`, `default`
+— *Добавлено в v2.2:* `death_of_close` (смерть близкого: Pluto/Saturn/Mars → Moon/IC/4-8 cusps), `legal_event` (суд/иск/контракт: Saturn/Pluto/Jupiter → MC/Mercury/9-10 cusps), `financial_windfall` (денежный скачок: Jupiter/Venus/Uranus → Sun/Venus/2-8 cusps), `surgery_accident` (операция/травма: Mars/Pluto/Saturn/Chiron → ASC/Mars/6-8 cusps), `public_recognition` (медиа/награда: Jupiter/Sun/Uranus → MC/Sun/10-11 cusps), `education_milestone` (диплом/экзамен: Mercury/Jupiter/Saturn → Mercury/MC/3-9 cusps).
+
+Каждому типу соответствует свой набор тематических планет с весами + натальные точки-цели. Ангулярные точки и cusps получают bonus ×2 для time-sensitivity.
 
 **Шаг Re2.** Натал должен быть в кэше с приблизительным временем (можно даже 12:00 — алгоритм перебирает кандидаты).
 
