@@ -1,5 +1,7 @@
 # Astro Natal МерКаБа
 
+**v2.0.0 — полная астрологическая платформа.** 10 модулей: натал, транзиты, прогрессии, соляр, синастрия, композит, астероиды, релокация, ведические даши и ректификация. Каждый модуль выдаёт отдельный стилизованный DOCX-отчёт в палитре МерКаБа.
+
 Cowork-скил для построения натальной астрологической карты по дате, времени и месту рождения. Поддерживает **западную** (тропический зодиак, система домов Плацидус) и **ведическую** (сидерический Лахири, 27 накшатр, Whole Sign) системы.
 
 Расчёты — через [Swiss Ephemeris](https://www.astro.com/swisseph/) (JPL DE431, точность <0.001°). На выходе — стилизованный DOCX 15-25 страниц с колесом карты, архетипической интерпретацией планет, аспектов, домов, накшатр и практическими рекомендациями.
@@ -45,7 +47,26 @@ git clone https://github.com/klasnyi/astro-natal-merkaba.git ~/.claude/skills/as
 
 ---
 
-## Что делает скил
+## Все 10 модулей
+
+| Модуль | Что даёт | Скрипты | Что нужно |
+|---|---|---|---|
+| 🌟 **Натал** | Натальная карта 15-25 страниц с колесом, планетами, домами, аспектами, стихиями | `build_chart.py` + `render_docx.py` | Дата, время, место |
+| 🌠 **Транзиты** | Что прямо сейчас активирует карту, прогноз | `build_transits.py` + `render_transits_docx.py` | Натал из кэша + дата |
+| 📈 **Прогрессии** | Символическое развитие (1 день = 1 год) | `build_progressions.py` + `render_progressions_docx.py` | Натал |
+| ☀️ **Соляр** | Карта на год от ДР до ДР | `build_solar.py` + `render_solar_docx.py` | Натал + город пребывания в ДР |
+| 💞 **Синастрия** | Совместимость с партнёром: cross-аспекты + house overlays | `build_synastry.py` + `render_synastry_docx.py` | Две натальных карты |
+| 🌓 **Композит** | Карта отношений как третьей сущности (midpoint method) | `build_composite.py` + `render_composite_docx.py` | Две натальных карты |
+| ⚳ **Астероиды** | Церера, Паллада, Юнона, Веста + Хирон | `build_asteroids.py` + `render_asteroids_docx.py` | Натал |
+| 🌍 **Релокация** | Что меняется при переезде в другой город (новые ASC/MC/дома) | `build_relocation.py` + `render_relocation_docx.py` | Натал + целевой город |
+| 🕉 **Ведические даши** | Vimshottari mahadasha + antardasha (120-летний цикл) | `build_dashas.py` + `render_dashas_docx.py` | Натал с временем |
+| 🔍 **Ректификация** | Восстановление неизвестного времени рождения | `build_rectification.py` + `render_rectification_docx.py` | Натал (приблиз. время) + 3-7 событий жизни |
+
+Все модули используют общий пайплайн: натальная карта (через `build_chart.py`) кэшируется в `~/.astro-natal-merkaba/cache/`, остальные модули читают из кэша. DRY-паттерн: константы и helpers — из `build_transits.py`, палитра DOCX — из `render_docx.py`.
+
+---
+
+## Что делает скил (натальная карта)
 
 ### Поддерживаемые системы
 
@@ -55,7 +76,7 @@ git clone https://github.com/klasnyi/astro-natal-merkaba.git ~/.claude/skills/as
 | **Ведическая** | Сидерический Лахири (~23.79°) | Whole Sign | 27 накшатр, ведические даши |
 | **Солнечная** (без времени) | По выбору | — | Только знаки планет, без ASC и домов |
 
-### Что входит в отчёт
+### Что входит в отчёт натала
 
 - 🌞 **Солнце-Луна-Асцендент** — синтез ядра карты
 - 🪐 **13 планет** (Солнце → Меркурий → Венера → Марс → Юпитер → Сатурн → Уран → Нептун → Плутон → Северный Узел → Хирон → Лилит) — каждая 8-15 предложений с привязкой к градусу, дому, диспозитору, аспектам
@@ -68,19 +89,20 @@ git clone https://github.com/klasnyi/astro-natal-merkaba.git ~/.claude/skills/as
 
 ### Архитектура
 
-Двухскриптовая:
-
 ```
 scripts/
-├── build_chart.py    # Расчёт: kerykeion → JSON + matplotlib wheel PNG
-└── render_docx.py    # DOCX из chart.json + interp.json (стиль МерКаБа)
+├── build_chart.py + render_docx.py + astro_helpers.py     # натал + общая палитра + кэш
+├── build_transits.py + render_transits_docx.py            # транзиты (источник DRY-констант)
+├── build_progressions.py + render_progressions_docx.py    # прогрессии
+├── build_solar.py + render_solar_docx.py                  # соляр
+├── build_synastry.py + render_synastry_docx.py            # синастрия
+├── build_composite.py + render_composite_docx.py          # композит
+├── build_asteroids.py + render_asteroids_docx.py          # астероиды
+├── build_relocation.py + render_relocation_docx.py        # релокация
+├── build_dashas.py + render_dashas_docx.py                # vimshottari даши
+└── build_rectification.py + render_rectification_docx.py  # ректификация
 
-references/           # Справочники архетипов (НЕ готовые интерпретации)
-├── planets.json
-├── signs.json
-├── houses.json
-├── aspects.json
-└── nakshatras.json
+references/                                                # 5 JSON архетипов (натал)
 ```
 
 **Интерпретации генерирует Claude** в момент составления отчёта — синтезируя `chart.json` с reference-файлами по промту в `SKILL.md`. Не pre-written: каждая карта получает уникальный текст.
@@ -100,9 +122,11 @@ references/           # Справочники архетипов (НЕ гото
 > 4. **Имя**
 > 5. **Система** — западная / ведическая / обе
 
-Можно ответить одним сообщением — скил распарсит.
+Можно ответить одним сообщением — скил распарсит. Дополнительные модули запускаются по своим триггерам: `транзиты`, `прогрессии`, `соляр`, `синастрия`, `композит`, `астероиды`, `релокация`, `ведические даши`, `ректификация`.
 
 ### Локально через CLI
+
+Полные примеры команд для всех 10 модулей — в [SKILL.md](./SKILL.md). Эталонный smoke натала:
 
 ```bash
 python3 scripts/build_chart.py \
@@ -112,24 +136,6 @@ python3 scripts/build_chart.py \
   --name "Дмитрий" \
   --system western \
   --outdir /tmp/astro-dima
-```
-
-Параметры:
-- `--date` — `ДД.ММ.ГГГГ`
-- `--time` — `ЧЧ:ММ` (опционально; если нет — солнечная карта)
-- `--city` — название города на любом языке (геокодируется через Nominatim)
-- `--name` — имя для шапки отчёта
-- `--system` — `western` / `vedic`
-- `--outdir` — куда сложить результаты
-
-Затем рендер DOCX:
-
-```bash
-# Сначала вы (или Claude) пишете interp.json с интерпретациями по промту в SKILL.md
-python3 scripts/render_docx.py \
-  --chart /tmp/astro-dima/Дмитрий_1993-08-13.json \
-  --interp /tmp/astro-dima/interp.json \
-  --out /tmp/astro-dima/Дмитрий_1993-08-13_natal.docx
 ```
 
 ---
@@ -185,27 +191,30 @@ python3 scripts/render_docx.py \
 | ASC/MC формула | Истинное местное звёздное время |
 | Дома (западная) | Алгоритм Плацидуса (Meeus, Astronomical Algorithms) |
 | Аянамша (ведическая) | Лахири (Chitrapaksha) |
+| Solar return | Бинарный поиск 0.0001° (~0.36 arcsec) |
+| Vimshottari | Полные 120 лет с pratyantardasha (опц.) |
+| Композит | Midpoint через короткую сторону круга |
 
 Чтобы проверить точность — сравните с [astro.com](https://www.astro.com/horoscope) (бесплатный профессиональный калькулятор).
 
 ---
 
-## Backlog (планируемые расширения)
+## Релизы
 
-Натальная карта — основа. Сверх неё разрабатываются модули:
+См. [CHANGELOG.md](./CHANGELOG.md). Краткая лента:
 
-| Модуль | Статус | Описание |
-|---|---|---|
-| ⏳ Транзиты | план | Что сейчас активирует карту |
-| 📈 Прогрессии | план | Символическое развитие (1 день = 1 год) |
-| ☀️ Соляр | план | Прогноз на год |
-| 💞 Синастрия | план | Совместимость с партнёром |
-| 🌓 Композит | план | Карта отношений как третьей сущности |
-| 🌍 Релокация | план | Что меняется при переезде |
-| 🕉 Ведические даши | план | Периоды планет (Vimshottari, 10-20 лет каждый) |
-| ⚳ Астероиды | план | Церера, Паллада, Юнона, Веста |
-
-Каждый модуль — отдельный скрипт `build_<technique>.py` + интерпретация Claude + отдельный DOCX.
+- **v2.0.0** — финальный релиз: 10 модулей, 15+ KB кода, единая палитра МерКаБа
+- **v1.10.0** — Phase 11: Ректификация (восстановление времени по событиям)
+- **v1.9.0** — Phase 7: Vedic dashas (Vimshottari mahadasha + antardasha)
+- **v1.8.0** — Phase 9: Релокация (recast for new city)
+- **v1.7.0** — Phase 8: Астероиды (Ceres, Pallas, Juno, Vesta + Chiron)
+- **v1.6.0** — Phase 6: Композит (midpoint method)
+- **v1.5.0** — Phase 5: Синастрия (cross-aspects + house overlays)
+- **v1.4.0** — Phase 4: Соляр (Solar Return бинарным поиском)
+- **v1.3.0** — Phase 3: Прогрессии (secondary progressions)
+- **v1.2.0** — Phase 2: Транзиты (transit-to-natal aspects)
+- **v1.1.x** — Phase 1: Foundation (cache, slug, parsers, authorship cleanup)
+- **v1.0.0** — натал: GitHub baseline
 
 ---
 
