@@ -1,6 +1,6 @@
 #!/usr/bin/env python3.11
 """
-astro-natal-merkaba: render_biwheel.py
+astro-natal-simond: render_biwheel.py
 Bi-wheel PNG: натальная карта в центре + транзиты по внешнему кольцу.
 Между ними — линии активных аспектов транзит → натал.
 

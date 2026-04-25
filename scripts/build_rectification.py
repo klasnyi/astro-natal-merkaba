@@ -7,7 +7,7 @@
 в заданном окне, считаем суммарный «резонанс» транзитов с событиями,
 выдаём топ-3.
 
-Phase 11 of astro-natal-merkaba expansion (v1.10.0).
+Phase 11 of astro-natal-simond expansion (v1.10.0).
 """
 from __future__ import annotations
 

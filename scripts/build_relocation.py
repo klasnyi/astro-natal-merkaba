@@ -5,7 +5,7 @@
 Натальные планеты по эклиптике не меняются — меняются ASC/MC/cusps,
 потому что они зависят от LST (local sidereal time), а LST — от долготы.
 
-Phase 9 of astro-natal-merkaba expansion (v1.8.0).
+Phase 9 of astro-natal-simond expansion (v1.8.0).
 """
 from __future__ import annotations
 
@@ -57,7 +57,7 @@ def geocode_city(city: str) -> tuple[float, float, str]:
     from geopy.geocoders import Nominatim
     from timezonefinder import TimezoneFinder
 
-    geolocator = Nominatim(user_agent="astro-natal-merkaba-relocation/1.0")
+    geolocator = Nominatim(user_agent="astro-natal-simond-relocation/1.0")
     location = geolocator.geocode(city, timeout=10)
     if location is None:
         raise RuntimeError(f"Город не найден: {city}")

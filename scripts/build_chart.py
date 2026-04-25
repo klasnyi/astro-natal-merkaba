@@ -1,6 +1,6 @@
 #!/usr/bin/env python3.11
 """
-astro-natal-merkaba: build_chart.py
+astro-natal-simond: build_chart.py
 Рассчитывает натальную астрологическую карту (западная + ведическая).
 Выход: JSON с данными карты + PNG колесо.
 
@@ -158,7 +158,7 @@ def geocode_city(city_name: str):
     if not GEOCODING_AVAILABLE:
         return None
     try:
-        geo = Nominatim(user_agent='astro-natal-merkaba/1.0', timeout=5)
+        geo = Nominatim(user_agent='astro-natal-simond/1.0', timeout=5)
         loc = geo.geocode(city_name, language='ru')
         if not loc:
             return None

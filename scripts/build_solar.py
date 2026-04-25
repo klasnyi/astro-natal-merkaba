@@ -1,6 +1,6 @@
 #!/usr/bin/env python3.11
 """
-astro-natal-merkaba: build_solar.py
+astro-natal-simond: build_solar.py
 Соляр (Solar Return) — карта на точный момент возврата Солнца к натальной
 позиции в указанном году. Используется как прогноз на год от ДР до ДР.
 
@@ -12,7 +12,7 @@ astro-natal-merkaba: build_solar.py
 
 Использование:
   python3.11 build_solar.py \\
-    --natal ~/.astro-natal-merkaba/cache/dmitriy_1993-08-13_moskva_western.json \\
+    --natal ~/.astro-natal-simond/cache/dmitriy_1993-08-13_moskva_western.json \\
     --year 2026 \\
     --city "Москва" \\
     --outdir /tmp/astro-solar-dima
@@ -49,7 +49,7 @@ from build_transits import (
 def geocode_city(city):
     if not GEOCODING_AVAILABLE:
         raise RuntimeError("geopy/timezonefinder не установлены")
-    geolocator = Nominatim(user_agent="astro-natal-merkaba")
+    geolocator = Nominatim(user_agent="astro-natal-simond")
     loc = geolocator.geocode(city, language='en', timeout=10)
     if not loc:
         raise ValueError(f"Город не найден: {city}")

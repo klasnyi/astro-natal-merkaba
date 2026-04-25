@@ -1,10 +1,10 @@
 #!/usr/bin/env python3.11
 """
-astro-natal-merkaba: astro_helpers.py
+astro-natal-simond: astro_helpers.py
 Общие утилиты для модулей скила (натал, транзиты, прогрессии, синастрия и т.д.).
 
 Содержит:
-  • Кэш натальных карт (~/.astro-natal-merkaba/cache/) — для переиспользования
+  • Кэш натальных карт (~/.astro-natal-simond/cache/) — для переиспользования
     наталов в расширенных техниках без повторного запроса данных.
   • Slug-генерацию для имён файлов.
   • Парсеры даты/времени/системы (общие для всех модулей).
@@ -18,7 +18,7 @@ from typing import Optional
 
 # ─── ПУТИ ────────────────────────────────────────────────────────────────────
 
-CACHE_ROOT = Path.home() / ".astro-natal-merkaba" / "cache"
+CACHE_ROOT = Path.home() / ".astro-natal-simond" / "cache"
 
 
 def cache_dir() -> Path:

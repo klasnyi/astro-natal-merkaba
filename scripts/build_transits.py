@@ -1,6 +1,6 @@
 #!/usr/bin/env python3.11
 """
-astro-natal-merkaba: build_transits.py
+astro-natal-simond: build_transits.py
 Считает транзиты планет к натальной карте на заданную дату.
 
 Вход: натальная карта (chart.json от build_chart.py или из кэша).
@@ -9,7 +9,7 @@ astro-natal-merkaba: build_transits.py
 
 Использование:
   python3.11 build_transits.py \\
-    --natal ~/.astro-natal-merkaba/cache/dmitriy_1993-08-13_moskva_western.json \\
+    --natal ~/.astro-natal-simond/cache/dmitriy_1993-08-13_moskva_western.json \\
     --date 25.04.2026 \\
     --time 12:00 \\
     --outdir /tmp/astro-transits-dima

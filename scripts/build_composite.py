@@ -1,6 +1,6 @@
 #!/usr/bin/env python3.11
 """
-astro-natal-merkaba: build_composite.py
+astro-natal-simond: build_composite.py
 Композитная карта (midpoint composite) — карта отношений как «третья сущность».
 
 Каждая позиция композита = середина дуги между соответствующими планетами
@@ -8,8 +8,8 @@ astro-natal-merkaba: build_composite.py
 
 Использование:
   python3.11 build_composite.py \\
-    --natal1 ~/.astro-natal-merkaba/cache/dmitriy_1993-08-13_moskva_western.json \\
-    --natal2 ~/.astro-natal-merkaba/cache/anna_1995-03-15_sankt-peterburg_western.json \\
+    --natal1 ~/.astro-natal-simond/cache/dmitriy_1993-08-13_moskva_western.json \\
+    --natal2 ~/.astro-natal-simond/cache/anna_1995-03-15_sankt-peterburg_western.json \\
     --outdir /tmp/astro-comp-dima-anna
 """
 import argparse

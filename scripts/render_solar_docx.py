@@ -1,6 +1,6 @@
 #!/usr/bin/env python3.11
 """
-astro-natal-merkaba: render_solar_docx.py
+astro-natal-simond: render_solar_docx.py
 DOCX-отчёт по соляру (палитра МерКаБа).
 """
 import argparse
@@ -251,7 +251,7 @@ def add_colophon(doc, solar):
 
     author_p = doc.add_paragraph()
     author_p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    ar = author_p.add_run('astro-natal-merkaba · автор: Дмитрий · dimkaklasnyi@gmail.com')
+    ar = author_p.add_run('astro-natal-simond · автор: Дмитрий · dimkaklasnyi@gmail.com')
     ar.font.size = Pt(8)
     ar.font.color.rgb = COLOR_MUTED
 

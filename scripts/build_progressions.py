@@ -1,6 +1,6 @@
 #!/usr/bin/env python3.11
 """
-astro-natal-merkaba: build_progressions.py
+astro-natal-simond: build_progressions.py
 Считает секундарные прогрессии (1 день после рождения = 1 год жизни).
 
 Прогрессированная карта — это не "что снаружи", а символическое внутреннее
@@ -10,13 +10,13 @@ astro-natal-merkaba: build_progressions.py
 
 Использование:
   python3.11 build_progressions.py \\
-    --natal ~/.astro-natal-merkaba/cache/dmitriy_1993-08-13_moskva_western.json \\
+    --natal ~/.astro-natal-simond/cache/dmitriy_1993-08-13_moskva_western.json \\
     --age 32.7 \\
     --outdir /tmp/astro-progressions-dima
 
   # Или возраст автоматически (на сегодня):
   python3.11 build_progressions.py \\
-    --natal ~/.astro-natal-merkaba/cache/dmitriy_1993-08-13_moskva_western.json
+    --natal ~/.astro-natal-simond/cache/dmitriy_1993-08-13_moskva_western.json
 """
 import argparse
 import json

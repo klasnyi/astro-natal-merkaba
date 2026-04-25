@@ -1,6 +1,6 @@
 #!/usr/bin/env python3.11
 """
-astro-natal-merkaba: build_synastry.py
+astro-natal-simond: build_synastry.py
 Синастрия — сравнение двух натальных карт для оценки совместимости.
 
 Что считает:
@@ -11,8 +11,8 @@ astro-natal-merkaba: build_synastry.py
 
 Использование:
   python3.11 build_synastry.py \\
-    --natal1 ~/.astro-natal-merkaba/cache/dmitriy_1993-08-13_moskva_western.json \\
-    --natal2 ~/.astro-natal-merkaba/cache/anna_1995-03-15_spb_western.json \\
+    --natal1 ~/.astro-natal-simond/cache/dmitriy_1993-08-13_moskva_western.json \\
+    --natal2 ~/.astro-natal-simond/cache/anna_1995-03-15_spb_western.json \\
     --outdir /tmp/astro-syn-dima-anna
 """
 import argparse

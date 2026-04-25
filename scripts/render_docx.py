@@ -1,6 +1,6 @@
 #!/usr/bin/env python3.11
 """
-astro-natal-merkaba: render_docx.py
+astro-natal-simond: render_docx.py
 Рендерит стильный DOCX из натальной карты + LLM-интерпретаций.
 
 Вход:
@@ -549,7 +549,7 @@ def add_colophon(doc, meta):
 
     author = doc.add_paragraph()
     author.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    ar = author.add_run('astro-natal-merkaba · автор: Дмитрий · dimkaklasnyi@gmail.com')
+    ar = author.add_run('astro-natal-simond · автор: Дмитрий · dimkaklasnyi@gmail.com')
     ar.font.size = Pt(8)
     ar.font.color.rgb = COLOR_MUTED
 

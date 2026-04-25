@@ -5,7 +5,7 @@
 На вход — путь к натальному JSON-кэшу. На выход — JSON с положениями
 астероидов в знаках, домах и аспектах к натальным планетам.
 
-Phase 8 of astro-natal-merkaba expansion (v1.7.0).
+Phase 8 of astro-natal-simond expansion (v1.7.0).
 """
 from __future__ import annotations
 
