@@ -20,6 +20,7 @@ from render_docx import (  # type: ignore
     add_hr,
     add_page_break,
     set_cell_width,
+    add_extended_interp_section,
     COLOR_TITLE,
     COLOR_H1,
     COLOR_H2,
@@ -273,7 +274,7 @@ def add_colophon(doc: Document):
     ar.font.color.rgb = COLOR_MUTED
 
 
-def render_relocation_docx(result: dict, out_path: str) -> str:
+def render_relocation_docx(result: dict, out_path: str, interp: dict | None = None) -> str:
     doc = Document()
     setup_styles(doc)
 
@@ -284,6 +285,8 @@ def render_relocation_docx(result: dict, out_path: str) -> str:
     add_angular_planets(doc, result["angular_planets"])
     add_house_distribution(doc, result["relocation"]["planets"])
     add_practical_advice(doc)
+    if interp:
+        add_extended_interp_section(doc, interp)
     add_colophon(doc)
 
     out_p = Path(out_path)
@@ -298,10 +301,15 @@ if __name__ == "__main__":
 
     p = argparse.ArgumentParser()
     p.add_argument("--reloc", required=True)
+    p.add_argument("--interp", required=False)
     p.add_argument("--out", required=True)
     args = p.parse_args()
 
     with open(args.reloc) as f:
         data = _json.load(f)
-    out = render_relocation_docx(data, args.out)
+    interp = None
+    if args.interp and os.path.exists(args.interp):
+        with open(args.interp) as f:
+            interp = _json.load(f)
+    out = render_relocation_docx(data, args.out, interp=interp)
     print(f"📄 DOCX: {out}")

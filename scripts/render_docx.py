@@ -554,6 +554,79 @@ def add_colophon(doc, meta):
     ar.font.color.rgb = COLOR_MUTED
 
 
+# ─── ОБЩИЙ БЛОК «УГЛУБЛЁННАЯ ИНТЕРПРЕТАЦИЯ» (для астероидов / даш / релокации) ──
+
+def add_extended_interp_section(doc, interp):
+    """
+    Универсальный блок углублённой интерпретации для модулей,
+    у которых нет своих нативных полей в LLM-interp.
+
+    Структура interp:
+      {
+        "intro_how_to_read": "...",       // 1-2 параграфа в начале
+        "summary": "...",                  // главный summary
+        "items": {"key": "...", ...},      // основные блоки (астероиды/планеты/etc)
+        "key_aspects": {"key": "...", ...},// аспекты с интерпретациями
+        "deep_themes": ["...", ...],       // глубокие темы (3-6 параграфов)
+        "practical_advice": ["...", ...]   // практические советы
+      }
+    """
+    if not interp:
+        return
+
+    add_page_break(doc)
+    doc.add_heading('Углублённая интерпретация', level=1)
+
+    intro = interp.get('intro_how_to_read')
+    if intro:
+        p = doc.add_paragraph(intro)
+        p.paragraph_format.space_after = Pt(8)
+
+    summary = interp.get('summary')
+    if summary:
+        doc.add_heading('Главное', level=2)
+        p = doc.add_paragraph(summary)
+        p.paragraph_format.space_after = Pt(8)
+
+    items = interp.get('items') or {}
+    if items:
+        doc.add_heading('Архетипический разбор', level=2)
+        for key, text in items.items():
+            h = doc.add_paragraph()
+            h.style = doc.styles['Heading 3'] if 'Heading 3' in [s.name for s in doc.styles] else doc.styles['Heading 2']
+            h.paragraph_format.keep_with_next = True
+            run = h.add_run(key.replace('_', ' ').capitalize())
+            run.font.color.rgb = COLOR_H2
+            p = doc.add_paragraph(text)
+            p.paragraph_format.space_after = Pt(6)
+
+    aspects = interp.get('key_aspects') or {}
+    if aspects:
+        doc.add_heading('Ключевые аспекты', level=2)
+        for key, text in aspects.items():
+            h = doc.add_paragraph()
+            h.paragraph_format.keep_with_next = True
+            run = h.add_run(key.replace('_', ' '))
+            run.bold = True
+            run.font.color.rgb = COLOR_H2
+            p = doc.add_paragraph(text)
+            p.paragraph_format.space_after = Pt(6)
+
+    themes = interp.get('deep_themes') or []
+    if themes:
+        doc.add_heading('Глубокие темы', level=2)
+        for t in themes:
+            p = doc.add_paragraph(t)
+            p.paragraph_format.space_after = Pt(6)
+
+    advice = interp.get('practical_advice') or []
+    if advice:
+        doc.add_heading('Практические советы', level=2)
+        for a in advice:
+            bullet = doc.add_paragraph(a, style='List Bullet')
+            bullet.paragraph_format.space_after = Pt(4)
+
+
 # ─── ОСНОВНОЙ ФЛОУ ──────────────────────────────────────────────────────────
 
 def render(chart_path, interp_path, out_path):
