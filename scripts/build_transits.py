@@ -36,7 +36,7 @@ except ImportError:
 TRANSIT_PLANETS = [
     'sun', 'moon', 'mercury', 'venus', 'mars',
     'jupiter', 'saturn', 'uranus', 'neptune', 'pluto',
-    'true_north_lunar_node', 'chiron'
+    'true_north_lunar_node', 'chiron', 'mean_lilith'
 ]
 
 PLANET_RU = {
@@ -89,7 +89,7 @@ TRANSIT_ORBS = {
     'sun': 1.5, 'moon': 1.5, 'mercury': 2.0, 'venus': 2.0, 'mars': 2.0,
     'jupiter': 3.0, 'saturn': 3.0,
     'uranus': 3.0, 'neptune': 3.0, 'pluto': 3.0, 'chiron': 3.0,
-    'true_north_lunar_node': 2.0,
+    'true_north_lunar_node': 2.0, 'mean_lilith': 1.5,
 }
 
 # Скорости планет (град/сутки, среднее) — для оценки exact_date
@@ -97,13 +97,14 @@ PLANET_DAILY_MOTION = {
     'sun': 1.0, 'moon': 13.2, 'mercury': 1.4, 'venus': 1.2, 'mars': 0.524,
     'jupiter': 0.083, 'saturn': 0.034, 'uranus': 0.012, 'neptune': 0.006,
     'pluto': 0.004, 'chiron': 0.05, 'true_north_lunar_node': 0.053,
+    'mean_lilith': 0.111,  # ~40°/year, 1 цикл ≈ 8.85 года
 }
 
 # Веса значимости планет — для топ-сортировки активных транзитов
 PLANET_WEIGHT = {
     # Чем медленнее планета, тем дольше длится транзит → значимее
     'pluto': 10, 'neptune': 9, 'uranus': 8, 'saturn': 7, 'chiron': 6,
-    'jupiter': 5, 'true_north_lunar_node': 5,
+    'jupiter': 5, 'true_north_lunar_node': 5, 'mean_lilith': 5,
     'mars': 4, 'sun': 4,
     'venus': 3, 'mercury': 3, 'moon': 1,
 }
@@ -227,6 +228,7 @@ def extract_transit_planets(subject):
         'true_north_lunar_node': getattr(subject, 'mean_north_lunar_node',
                                           getattr(subject, 'mean_node', None)),
         'chiron': getattr(subject, 'chiron', None),
+        'mean_lilith': getattr(subject, 'mean_lilith', None),
     }
     for key, obj in obj_map.items():
         if obj is None:
