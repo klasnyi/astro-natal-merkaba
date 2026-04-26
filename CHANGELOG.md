@@ -2,6 +2,53 @@
 
 История релизов astro-natal-simond. Семантическое версионирование.
 
+## v2.5.0 — Lite scope expansion: Mercury/Venus/Mars/Jupiter/Saturn/Uranus/Neptune/Pluto (2026-04-26)
+
+**Полное покрытие 10 планет × 12 домов/знаков** — Lite больше не ограничена Sun/Moon. Перенесены 192 интерпретативных entry из приватной Full v1.4.2 в публичную Lite. Mercury/Venus/Mars/Jupiter/Saturn/Uranus/Neptune/Pluto теперь дают полные авторские интерпретации без fallback на короткий шаблон.
+
+### Что изменилось
+
+- **planets_in_houses.json**: 24 → **120 entries** (Sun/Moon × 12 + 8 новых планет × 12)
+- **planets_in_signs.json**: 24 → **120 entries** (Sun/Moon × 12 + 8 новых планет × 12)
+
+Field structure идентичен Sun/Moon (keyword + archetype + focus/gift + shadow). Поля заимствованы напрямую из Full v1.4.2 — те же тексты, что в приватной версии.
+
+### Влияние на DOCX-отчёт
+
+До v2.5.0 при рендере натальной карты:
+- Sun/Moon в доме/знаке → полный авторский архетип (\~250-440 chars)
+- Mercury/Venus/Mars/.../Pluto в доме/знаке → fallback короткий шаблон в render_docx.py
+
+После v2.5.0:
+- **Все 10 планет** в любом доме и знаке → полный авторский архетип (\~265-448 chars)
+
+### Метрики
+
+| Метрика | До v2.5.0 | После v2.5.0 |
+|---|---|---|
+| Interpretive entries (p_in_h + p_in_s) | 48 | **240** (5x) |
+| Total interpretive | 59 | **251** |
+| Length issues | 0 | 0 ✅ |
+| Internal dups | 0 | 0 ✅ |
+| Cross-overlap | 0 | 0 ✅ |
+| Critical generic | 0 | 0 ✅ |
+| Unique keywords | 48/48 | 240/240 ✅ |
+| Transcripts (auto) | 4 | **7** |
+| .skill size | 164 КБ | ~250-300 КБ (estimated) |
+
+### Smoke test
+
+Тест `13.08.1993 14:30 Москва western` (Sun in Leo, Moon in Gemini) → DOCX рендерит все 8 новых планет (Меркурий/Венера/Марс/Юпитер/Сатурн/Уран/Нептун/Плутон) с полными архетипами + Tarnas Ep 315 + utmost expression + звучит через. ✅
+
+### _meta updates
+
+- planets_in_houses.json: version 2.4.3 → **2.5.0**, todo_planets removed, description обновлён
+- planets_in_signs.json: version 2.4.3 → **2.5.0**, todo_planets removed, description обновлён
+- SKILL.md metadata.version: 2.4.3 → **2.5.0**
+
+---
+
+
 ## v2.4.3 — Sun/Moon polish sync from Full v1.4.2 (2026-04-26)
 
 Текстовая полировка Sun/Moon entries в `planets_in_houses.json` и `planets_in_signs.json`. Обратный синк улучшений из приватной Full v1.4.2 в публичную Lite — без расширения scope (Mercury/Venus/Mars/Jupiter/Saturn/Uranus/Neptune/Pluto остаются в backlog).
