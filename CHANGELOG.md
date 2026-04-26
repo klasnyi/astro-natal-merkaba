@@ -2,6 +2,40 @@
 
 История релизов astro-natal-simond. Семантическое версионирование.
 
+## v2.4.3 — Sun/Moon polish sync from Full v1.4.2 (2026-04-26)
+
+Текстовая полировка Sun/Moon entries в `planets_in_houses.json` и `planets_in_signs.json`. Обратный синк улучшений из приватной Full v1.4.2 в публичную Lite — без расширения scope (Mercury/Venus/Mars/Jupiter/Saturn/Uranus/Neptune/Pluto остаются в backlog).
+
+### Что изменилось
+
+- **planets_in_houses.json** (4 Sun entries обновлены):
+  - sun/1, sun/7: «проявляется через» → «звучит через»
+  - sun/2, sun/10: переписаны архетип + focus в более конкретный язык (звучание через ресурсы / карьеру)
+
+- **planets_in_signs.json** (14 entries обновлены):
+  - 12 sun/* entries: degeneric замена «проявляется» → «звучит»
+  - **Транскрипты (Tarnas/Pluto/Lynn Bell Ep) добавлены в 4 entries:**
+    - sun/Лев: Tarnas Ep 315 «utmost expression» — Joplin, Madonna, Coco Chanel
+    - sun/Скорпион: Pluto Ep 336 «utmost-extreme» — Hillary Clinton, Bill Gates, Pablo Picasso
+    - moon/Рак: Lynn Bell Ep 104 «archetypal mother-anchor»
+    - moon/Скорпион: Pluto Ep 336 «utmost-extreme» — Adele, Joplin
+  - moon/Скорпион keyword: «Чувство-бездна» → «Луна-омут»
+  - sun/Водолей gift: правописная правка («верность принципам» → «верность правилам»)
+
+### Метрики после v2.4.3
+
+- 59 интерпретативных entries (24 + 24 + 11)
+- 0 length issues / 0 internal dups / 0 cross-overlap / 0 critical generic phrases
+- 48/48 unique keywords
+- _meta.version 2.4.3 в planets_in_houses + planets_in_signs
+
+### Smoke test
+
+Тест 13.08.1993 14:30 Москва (western) — Sun in Leo, Moon in Gemini → DOCX корректно отрендерил Tarnas Ep 315 + «utmost expression» + «звучит через».
+
+---
+
+
 ## v2.4.2 — Универсальный --interp во всех 11 рендерах (2026-04-25 day, Lite закрыт)
 
 **Lite версия скила полностью закрыта** — все рендеры единообразно принимают LLM-интерпретации.
